@@ -52,8 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', async (e) => {
     e.preventDefault()
     const data = {movieBase64: document.getElementById('my-movie').src}
-    // return
-    let response = await fetch('http://localhost:5555/movies', {
+    let response = await fetch('http://localhost:5555/movies/', {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -63,5 +62,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }).then(res => res.json())
     console.log('response')
     console.log(response)
+  })
+
+  const fetchMovieButton = document.getElementById("fetch-button")
+  fetchMovieButton.addEventListener("click", async () => {
+    let response = await fetch('http://localhost:5555/movies/1').then(res => res.json())
+    console.log('response')
+    console.log(response)
+
+    const videoElement = document.createElement("video")
+    setAttributesToVideoElement(videoElement, {
+      mediaToBase64: response.message,
+      id: "my-movie",
+      width:  200,
+      height: 200,
+    })
+    previewImage.appendChild(videoElement)
   })
 })
